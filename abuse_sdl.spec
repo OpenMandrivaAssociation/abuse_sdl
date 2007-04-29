@@ -1,7 +1,7 @@
 %define	oname	abuse
 %define	name	%{oname}_sdl
 %define	version	0.7.0
-%define	release	%mkrel 11
+%define	release	%mkrel 12
 %define	Summary	The classic Crack-Dot-Com game
 %define	frabsv	210
 
@@ -70,7 +70,7 @@ cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 Encoding=UTF-8
 Name=Abuse
 Comment=%{Summary}
-Exec=%{_gamesbindir}/%{name}
+Exec=%{_gamesbindir}/%{oname}
 Icon=%{name}
 Terminal=false
 Type=Application
