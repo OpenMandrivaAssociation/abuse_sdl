@@ -25,7 +25,6 @@ License:	GPL
 Group:		Games/Arcade
 URL:		http://www.labyrinth.net.au/~trandor/abuse/
 BuildRequires:	ImageMagick SDL-devel alsa-lib-devel MesaGLU-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Abuse-SDL is a port of Abuse, the classic Crack-Dot-Com game, to the
