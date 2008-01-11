@@ -53,16 +53,6 @@ and it has stereo sound with sound panning.
 rm -rf %{buildroot}
 %makeinstall
 
-mkdir -p %{buildroot}%{_menudir}
-cat <<EOF > %{buildroot}%{_menudir}/%{name}
-?package(%{name}):command="%{_gamesbindir}/%{oname}" \
-		icon=%{name}.png \
-		needs="x11" \
-		section="More Applications/Games/Arcade" \
-		title="Abuse"\
-		longtitle="%{Summary}" \
-		xdg="true"
-EOF
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -105,7 +95,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS README TODO
 %{_gamesbindir}/*
-%{_menudir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_gamesdatadir}/%{oname}
 %{_iconsdir}/*.png
