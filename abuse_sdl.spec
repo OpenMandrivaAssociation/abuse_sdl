@@ -1,31 +1,23 @@
 %define	oname	abuse
-%define	name	%{oname}_sdl
-%define	version	0.7.1
-%define	release	%mkrel 1
 %define	Summary	The classic Crack-Dot-Com game
 %define	frabsv	210
 
 Summary:	%{Summary}
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
-Source1:	http://www.cs.uidaho.edu/~cass0664/fRaBs/frabs%{frabsv}_unix.src.tar.bz2
-#Patch0:	%{name}-nocrash-hack.patch.bz2
-#Patch1: 	abuse_sdl-0.7.0-debian-fixes.patch.bz2
-Patch2:		abuse_sdl-0.7.0-c++-compliance.patch
-Patch3:		abuse_sdl-0.7.0-disable-lisp-cache.patch
-Patch4:		abuse_sdl-0.7.0-datatypes.patch
-Patch5:		abuse_sdl-0.7.0-header-order.patch
-Patch6:		abuse_sdl-0.7.0-spelling.patch
-Patch7:		abuse_sdl-0.7.0-stack-malloc-sizeof.patch
-Patch8:		abuse_sdl-0.7.0-tint-fileptr.patch
-Patch9:		abuse_sdl-0.7.0-unused-vars.patch
+Name:		%{oname}_sdl
+Version:	0.7.1
+Release:	%mkrel 1
 License:	GPL
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
-BuildRequires:	ImageMagick SDL-devel alsa-lib-devel MesaGLU-devel
-BuildRoot:	%{_tmppath}/%{oname}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
+Source1:	http://www.cs.uidaho.edu/~cass0664/fRaBs/frabs%{frabsv}_unix.src.tar.bz2
+Patch0:		abuse_sdl-0.7.0-fixes.patch
+Patch1:		abuse_sdl-0.7.0-exit-intro-crash.patch
+BuildRequires:	alsa-lib-devel
+BuildRequires:	imagemagick
+BuildRequires:	MesaGLU-devel
+BuildRequires:	SDL-devel
+BuildRoot:	%{_tmppath}/%{oname}-%{version}-%{release}-buildroot
 
 %description
 Abuse-SDL is a port of Abuse, the classic Crack-Dot-Com game, to the
@@ -33,17 +25,10 @@ SDL library. It can run at any color depth, in a window or fullscreen,
 and it has stereo sound with sound panning.
 
 %prep
-%setup -q -a1
-#%patch0 -p0
-#%patch1 -p1
-%patch2 -p1 -b .c++_compliance
-%patch3 -p1 -b .disable_lisp_cache
-%patch4 -p1 -b .datatypes
-%patch5 -p1 -b .header_order
-%patch6 -p1 -b .spelling
-%patch7 -p1 -b .stack_malloc_sizeof
-%patch8 -p1 -b .tint_fileptr
-%patch9 -p1 -b .unused_vars
+
+%setup -q -n %{oname}-%{version} -a1
+%patch0 -p1 -z .fix
+%patch1 -p1 -z .intro
 
 %build
 %configure
@@ -51,8 +36,8 @@ and it has stereo sound with sound panning.
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
 
+%makeinstall_std
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -73,7 +58,7 @@ convert -size 48x48 %{oname}.png %{buildroot}%{_liconsdir}/%{name}.png
 convert -size 16x16 %{oname}.png %{buildroot}%{_miconsdir}/%{name}.png
 
 install -d %{buildroot}{%{_gamesdatadir}/%{oname},%{_gamesbindir}}
-mv %{buildroot}%{_bindir}/%{oname}.sdl %{buildroot}%{_gamesbindir}
+mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}.sdl
 cat > %{buildroot}%{_gamesbindir}/%{oname} << EOF
 #!/bin/sh
 cd %{_gamesdatadir}/%{oname}/frabs%{frabsv}_unix.src
@@ -87,12 +72,12 @@ rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post
-%{update_menus}
+%update_menus
 %endif
 
 %if %mdkversion < 200900
 %postun
-%{clean_menus}
+%clean_menus
 %endif
 
 %files
@@ -105,5 +90,3 @@ rm -rf %{buildroot}
 %{_liconsdir}/*.png
 %{_miconsdir}/*.png
 %{_mandir}/man6/*
-
-
