@@ -1,7 +1,7 @@
 %define	oname	abuse
 %define	name	%{oname}_sdl
-%define	version	0.7.0
-%define	release	%mkrel 12
+%define	version	0.7.1
+%define	release	%mkrel 1
 %define	Summary	The classic Crack-Dot-Com game
 %define	frabsv	210
 
@@ -9,7 +9,7 @@ Summary:	%{Summary}
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Source0:	http://www.labyrinth.net.au/~trandor/files/%{name}-%{version}.tar.bz2
+Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
 Source1:	http://www.cs.uidaho.edu/~cass0664/fRaBs/frabs%{frabsv}_unix.src.tar.bz2
 #Patch0:	%{name}-nocrash-hack.patch.bz2
 #Patch1: 	abuse_sdl-0.7.0-debian-fixes.patch.bz2
@@ -23,9 +23,9 @@ Patch8:		abuse_sdl-0.7.0-tint-fileptr.patch
 Patch9:		abuse_sdl-0.7.0-unused-vars.patch
 License:	GPL
 Group:		Games/Arcade
-URL:		http://www.labyrinth.net.au/~trandor/abuse/
+URL:		http://abuse.zoy.org/
 BuildRequires:	ImageMagick SDL-devel alsa-lib-devel MesaGLU-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot:	%{_tmppath}/%{oname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Abuse-SDL is a port of Abuse, the classic Crack-Dot-Com game, to the
@@ -51,7 +51,7 @@ and it has stereo sound with sound panning.
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+make install DESTDIR=%{buildroot}
 
 
 mkdir -p %{buildroot}%{_datadir}/applications
