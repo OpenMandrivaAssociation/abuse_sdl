@@ -5,7 +5,7 @@
 Summary:	%{Summary}
 Name:		%{oname}_sdl
 Version:	0.7.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
