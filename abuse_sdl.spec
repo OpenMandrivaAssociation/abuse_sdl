@@ -31,7 +31,7 @@ and it has stereo sound with sound panning.
 %patch1 -p1 -z .intro
 
 %build
-%configure
+%configure2_5x
 %make
 
 %install
@@ -49,7 +49,7 @@ Icon=%{name}
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=Game;ArcadeGame;X-MandrivaLinux-MoreApplications-Games-Arcade;
+Categories=Game;ArcadeGame;
 EOF
 
 install -d %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
