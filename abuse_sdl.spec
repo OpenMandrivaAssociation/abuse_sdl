@@ -1,22 +1,19 @@
 %define	oname	abuse
 %define	Summary	The classic Crack-Dot-Com game
-%define	frabsv	210
 
 Summary:	%{Summary}
 Name:		%{oname}_sdl
 Version:	0.8
-Release:	%mkrel 1
-License:	GPL
+Release:	%mkrel 69.1
+License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
-Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
-Source1:	http://www.cs.uidaho.edu/~cass0664/fRaBs/frabs%{frabsv}_unix.src.tar.bz2
-Patch0:		abuse_sdl-0.7.0-fixes.patch
-Patch1:		abuse_sdl-0.7.0-exit-intro-crash.patch
+Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.gz
 BuildRequires:	alsa-lib-devel
 BuildRequires:	imagemagick
 BuildRequires:	MesaGLU-devel
 BuildRequires:	SDL-devel
+Requires: TiMidity++
 BuildRoot:	%{_tmppath}/%{oname}-%{version}-%{release}-buildroot
 
 %description
@@ -25,10 +22,7 @@ SDL library. It can run at any color depth, in a window or fullscreen,
 and it has stereo sound with sound panning.
 
 %prep
-
-%setup -q -n %{oname}-%{version} -a1
-#%patch0 -p1 -z .fix
-#%patch1 -p1 -z .intro
+%setup -q -n %{oname}-%{version}
 
 %build
 %configure2_5x
@@ -53,19 +47,12 @@ Categories=Game;ArcadeGame;
 EOF
 
 install -d %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
-#convert %{oname}.png %{buildroot}%{_iconsdir}/%{name}.png
-#convert -size 48x48 %{oname}.png %{buildroot}%{_liconsdir}/%{name}.png
-#convert -size 16x16 %{oname}.png %{buildroot}%{_miconsdir}/%{name}.png
+convert doc/%{oname}.png %{buildroot}%{_iconsdir}/%{name}.png
+convert -size 48x48 doc/%{oname}.png %{buildroot}%{_liconsdir}/%{name}.png
+convert -size 16x16 doc/%{oname}.png %{buildroot}%{_miconsdir}/%{name}.png
 
 install -d %{buildroot}{%{_gamesdatadir}/%{oname},%{_gamesbindir}}
-mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}.sdl
-cat > %{buildroot}%{_gamesbindir}/%{oname} << EOF
-#!/bin/sh
-cd %{_gamesdatadir}/%{oname}/frabs%{frabsv}_unix.src
-exec %{_gamesbindir}/%{oname}.sdl -datadir %{_gamesdatadir}/%{oname}/frabs%{frabsv}_unix.src "\$@"
-EOF
-chmod +x $RPM_BUILD_ROOT%{_gamesbindir}/%{oname}
-cp -a frabs%{frabsv}_unix.src %{buildroot}%{_gamesdatadir}/%{oname}/
+mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}
 
 %clean
 rm -rf %{buildroot}
@@ -83,11 +70,11 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc AUTHORS README TODO
-%{_gamesbindir}/*
 %{_bindir}/abuse-tool
+%{_gamesbindir}/*
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_gamesdatadir}/%{oname}
-#%{_iconsdir}/*.png
-#%{_liconsdir}/*.png
-#%{_miconsdir}/*.png
+%{_iconsdir}/*.png
+%{_liconsdir}/*.png
+%{_miconsdir}/*.png
 %{_mandir}/man6/*
