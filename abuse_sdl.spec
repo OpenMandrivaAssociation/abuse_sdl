@@ -4,8 +4,8 @@
 
 Summary:	%{Summary}
 Name:		%{oname}_sdl
-Version:	0.7.1
-Release:	%mkrel 3
+Version:	0.8
+Release:	%mkrel 1
 License:	GPL
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
@@ -27,8 +27,8 @@ and it has stereo sound with sound panning.
 %prep
 
 %setup -q -n %{oname}-%{version} -a1
-%patch0 -p1 -z .fix
-%patch1 -p1 -z .intro
+#%patch0 -p1 -z .fix
+#%patch1 -p1 -z .intro
 
 %build
 %configure2_5x
@@ -53,9 +53,9 @@ Categories=Game;ArcadeGame;
 EOF
 
 install -d %{buildroot}{%{_iconsdir},%{_miconsdir},%{_liconsdir}}
-convert %{oname}.png %{buildroot}%{_iconsdir}/%{name}.png
-convert -size 48x48 %{oname}.png %{buildroot}%{_liconsdir}/%{name}.png
-convert -size 16x16 %{oname}.png %{buildroot}%{_miconsdir}/%{name}.png
+#convert %{oname}.png %{buildroot}%{_iconsdir}/%{name}.png
+#convert -size 48x48 %{oname}.png %{buildroot}%{_liconsdir}/%{name}.png
+#convert -size 16x16 %{oname}.png %{buildroot}%{_miconsdir}/%{name}.png
 
 install -d %{buildroot}{%{_gamesdatadir}/%{oname},%{_gamesbindir}}
 mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}.sdl
@@ -84,9 +84,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS README TODO
 %{_gamesbindir}/*
+%{_bindir}/abuse-tool
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_gamesdatadir}/%{oname}
-%{_iconsdir}/*.png
-%{_liconsdir}/*.png
-%{_miconsdir}/*.png
+#%{_iconsdir}/*.png
+#%{_liconsdir}/*.png
+#%{_miconsdir}/*.png
 %{_mandir}/man6/*
