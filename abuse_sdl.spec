@@ -1,6 +1,6 @@
 %define	oname	abuse
 %define	Summary	The classic Crack-Dot-Com game
-
+/////
 Summary:	%{Summary}
 Name:		%{oname}_sdl
 Version:	0.8
@@ -12,7 +12,7 @@ Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
 BuildRequires:	alsa-lib-devel
 BuildRequires:	imagemagick
 BuildRequires:	MesaGLU-devel
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel SDL_mixer-devel
 Requires: TiMidity++
 BuildRoot:	%{_tmppath}/%{oname}-%{version}-%{release}-buildroot
 
