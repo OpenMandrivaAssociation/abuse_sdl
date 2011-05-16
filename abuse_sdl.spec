@@ -8,7 +8,7 @@ Release:	%mkrel 69.1
 License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
-Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.gz
+Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
 BuildRequires:	alsa-lib-devel
 BuildRequires:	imagemagick
 BuildRequires:	MesaGLU-devel
