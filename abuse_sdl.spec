@@ -1,6 +1,5 @@
 %define	oname	abuse
 %define	Summary	The classic Crack-Dot-Com game
-/////
 Summary:	%{Summary}
 Name:		%{oname}_sdl
 Version:	0.8
