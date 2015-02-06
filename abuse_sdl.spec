@@ -3,7 +3,7 @@
 Summary:	The classic Crack-Dot-Com game
 Name:		%{oname}_sdl
 Version:	0.8
-Release:	2
+Release:	3
 License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
