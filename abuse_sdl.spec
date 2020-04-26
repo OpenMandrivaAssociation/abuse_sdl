@@ -1,3 +1,6 @@
+%define _disable_ld_no_undefined 1
+%define _disable_lto 1
+
 %define	oname	abuse
 
 Summary:	The classic Crack-Dot-Com game
@@ -24,11 +27,13 @@ and it has stereo sound with sound panning.
 %setup -q -n %{oname}-%{version}
 
 %build
-%configure2_5x
-%make
+export CC=gcc
+export CXX=g++
+%configure
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
