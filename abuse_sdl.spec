@@ -5,17 +5,19 @@
 
 Summary:	The classic Crack-Dot-Com game
 Name:		%{oname}_sdl
-Version:	0.8
-Release:	3
+Version:	0.9.0
+Release:	1
 License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
-Source0:	http://www.labyrinth.net.au/~trandor/files/%{oname}-%{version}.tar.bz2
+Source0:	https://github.com/Xenoveritas/abuse/archive/refs/tags/v%{version}.tar.gz
+Patch:		abuse-0.9.0-compile.patch
 BuildRequires:	imagemagick
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(sdl)
-BuildRequires:	SDL_mixer-devel
+BuildRequires:	pkgconfig(sdl2)
+BuildRequires:	SDL2_mixer-devel
+BuildRequires:	cmake ninja
 Requires:	TiMidity++
 
 %description
@@ -24,16 +26,14 @@ SDL library. It can run at any color depth, in a window or fullscreen,
 and it has stereo sound with sound panning.
 
 %prep
-%setup -q -n %{oname}-%{version}
+%autosetup -p1 -n %{oname}-%{version}
+%cmake -G Ninja
 
 %build
-export CC=gcc
-export CXX=g++
-%configure
-%make_build
+%ninja_build -C build
 
 %install
-%make_install
+%ninja_install -C build
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -57,7 +57,7 @@ install -d %{buildroot}{%{_gamesdatadir}/%{oname},%{_gamesbindir}}
 mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}
 
 %files
-%doc AUTHORS README TODO
+%doc AUTHORS
 %{_bindir}/abuse-tool
 %{_gamesbindir}/*
 %{_datadir}/applications/mandriva-%{name}.desktop
@@ -65,78 +65,3 @@ mv %{buildroot}%{_bindir}/%{oname} %{buildroot}%{_gamesbindir}/%{oname}
 %{_iconsdir}/*.png
 %{_liconsdir}/*.png
 %{_miconsdir}/*.png
-%{_mandir}/man6/*
-
-
-%changelog
-* Mon May 16 2011 Zombie Ryushu <ryushu@mandriva.org> 0.8-1mdv2011.0
-+ Revision: 675074
-- Fix build requires for mixer
-- Fix build requires for mixer
-- Fix build requires for mixer
-- Fix 0.8
-- Fix 0.8
-- update to 0.8
-
-* Sun Dec 05 2010 Oden Eriksson <oeriksson@mandriva.com> 0.7.1-3mdv2011.0
-+ Revision: 609905
-- rebuild
-
-* Fri Feb 19 2010 Funda Wang <fwang@mandriva.org> 0.7.1-2mdv2010.1
-+ Revision: 508018
-- use configure2_5x
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - rebuild
-
-* Mon Dec 08 2008 Oden Eriksson <oeriksson@mandriva.com> 0.7.1-1mdv2009.1
-+ Revision: 311990
-- nuke upstream implemented patches
-- sync patches with fedora (P0,P1)
-
-  + Zombie Ryushu <ryushu@mandriva.org>
-    - Preliminary 0.7.1 Version
-    - Preliminary 0.7.1 Version
-
-* Thu Jun 12 2008 Pixel <pixel@mandriva.com> 0.7.0-12mdv2009.0
-+ Revision: 218432
-- rpm filetriggers deprecates update_menus/update_scrollkeeper/update_mime_database/update_icon_cache/update_desktop_database/post_install_gconf_schemas
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - drop old menu
-
-* Thu Dec 20 2007 Olivier Blin <oblin@mandriva.com> 0.7.0-12mdv2008.1
-+ Revision: 135813
-- restore BuildRoot
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - kill re-definition of %%buildroot on Pixel's request
-    - kill desktop-file-validate's 'warning: key "Encoding" in group "Desktop Entry" is deprecated'
-
-  + Per Øyvind Karlsen <peroyvind@mandriva.org>
-    - fix broken menu item (tried executing non-existant binary)
-
-
-* Sun Jan 21 2007 Per Øyvind Karlsen <pkarlsen@mandriva.com> 0.7.0-11mdv2007.0
-+ Revision: 111431
-- sync with debian patches (should now work on x86_64, ppc & sparc too)
-- Import abuse_sdl
-
-* Fri Aug 25 2006 Per Øyvind Karlsen <pkarlsen@mandriva.com> 0.7.0-10mdv2007.0
-- add xdg menu
-
-* Tue Jun 27 2006 Lenny Cartier <lenny@mandriva.com> 0.7.0-9mdv2007.0
-- rebuild
-
-* Tue Mar 21 2006 Lenny Cartier <lenny@mandriva.com> 0.7.0-8mdk
-- rebuild
-
-* Wed Dec 15 2004 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.7.0-7mdk
-- add debian patches (P1)
-- drop workaround patch (P0) as debian patch seems to really fix the problem (finally:)
-
-* Wed Jun 16 2004 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.7.0-6mdk
-- rebuild
-- change summary macro to avoid conflicts if we were to build debug package
-- fix buildrequires for lib64
-
