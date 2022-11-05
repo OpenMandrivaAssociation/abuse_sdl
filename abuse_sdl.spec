@@ -11,7 +11,7 @@ License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
 Source0:	https://github.com/Xenoveritas/abuse/archive/refs/tags/v%{version}/%{oname}-%{version}.tar.gz
-Patch:		abuse-0.9.0-compile.patch
+#Patch:		abuse-0.9.0-compile.patch
 BuildRequires:	imagemagick
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(glu)
