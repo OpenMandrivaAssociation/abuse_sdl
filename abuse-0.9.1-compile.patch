@@ -1,0 +1,77 @@
+diff -up abuse-0.9.1/src/light.cpp.omv~ abuse-0.9.1/src/light.cpp
+--- abuse-0.9.1/src/light.cpp.omv~	2023-06-07 18:53:40.040046602 +0200
++++ abuse-0.9.1/src/light.cpp	2023-06-07 18:53:58.078149532 +0200
+@@ -542,7 +542,7 @@ int calc_light_value(light_patch *which,
+ {
+   int lv=0;
+   int t=which->total;
+-  for (register int i=t-1; i>=0; i--)
++  for (int i=t-1; i>=0; i--)
+   {
+     light_source *fn=which->lights[i];
+     if (fn->type==9)
+@@ -613,9 +613,9 @@ void delete_patch_list(light_patch *firs
+ 
+ inline void MAP_PUT(uint8_t * screen_addr, uint8_t * remap, int w)
+ {
+-  register int cx=w;
+-  register uint8_t * di=screen_addr;
+-  register uint8_t * si=remap;
++  int cx=w;
++  uint8_t * di=screen_addr;
++  uint8_t * si=remap;
+   while (cx--)
+   {
+     uint8_t x=*((uint8_t *)si+*((uint8_t *)di));
+@@ -640,14 +640,14 @@ inline int calc_light_value(light_patch
+                 int32_t sy)
+ {
+   int lv=min_light_level,r2,light_count;
+-  register int dx,dy;           // x and y distances
++  int dx,dy;           // x and y distances
+ 
+   light_source **lon_p=lp->lights;
+ 
+   for (light_count=lp->total; light_count>0; light_count--)
+   {
+     light_source *fn=*lon_p;
+-    register int32_t *dt=&(*lon_p)->type;
++    int32_t *dt=&(*lon_p)->type;
+                                      // note we are accessing structure members by bypassing the compiler
+                                      // for speed, this may not work on all compilers, but don't
+                                      // see why it shouldn't..  all members are int32_t
+diff -up abuse-0.9.1/src/net/fileman.cpp.omv~ abuse-0.9.1/src/net/fileman.cpp
+--- abuse-0.9.1/src/net/fileman.cpp.omv~	2023-06-07 18:55:49.707952544 +0200
++++ abuse-0.9.1/src/net/fileman.cpp	2023-06-07 18:56:46.869859046 +0200
+@@ -12,6 +12,8 @@
+ #   include "config.h"
+ #endif
+ 
++#include <cassert>
++
+ #if HAVE_NETWORK
+ 
+ #include <stdio.h>
+@@ -307,7 +309,9 @@ file_manager::remote_file::remote_file(n
+   next=Next;
+   open_local=0;
+ 
+-  uint8_t sizes[3]={ CLIENT_NFS,strlen(filename)+1,strlen(mode)+1};
++  assert(strlen(filename) < 0xfe);
++  assert(strlen(mode) < 0xfe);
++  uint8_t sizes[3]={ CLIENT_NFS,static_cast<uint8_t>(strlen(filename)+1),static_cast<uint8_t>(strlen(mode)+1)};
+   if (sock->write(sizes,3)!=3) { r_close("could not send open info"); return ; }
+   if (sock->write(filename,sizes[1])!=sizes[1]) { r_close("could not send filename"); return ; }
+   if (sock->write(mode,sizes[2])!=sizes[2]) { r_close("could not send mode"); return ; }
+diff -up abuse-0.9.1/src/sdlport/hmi.cpp.omv~ abuse-0.9.1/src/sdlport/hmi.cpp
+--- abuse-0.9.1/src/sdlport/hmi.cpp.omv~	2023-06-07 18:56:56.366998754 +0200
++++ abuse-0.9.1/src/sdlport/hmi.cpp	2023-06-07 18:57:06.632146606 +0200
+@@ -299,7 +299,7 @@ uint8_t* load_hmi(char const *filename,
+     uint8_t num_tracks = (next_offset - offset_tracks) / sizeof(uint32_t);
+ 
+     // Write Midi file header
+-    uint8_t midi_header[] = { 0x4D, 0x54, 0x68, 0x64, 0x00, 0x00, 0x00, 0x06, 0x00, 0x01, 0x00, (num_tracks + 1), 0x00, 0xC0 };
++    uint8_t midi_header[] = { 0x4D, 0x54, 0x68, 0x64, 0x00, 0x00, 0x00, 0x06, 0x00, 0x01, 0x00, static_cast<uint8_t>(num_tracks + 1), 0x00, 0xC0 };
+     memcpy(output_buffer_ptr, midi_header, 14);
+     output_buffer_ptr += 14;
+ 

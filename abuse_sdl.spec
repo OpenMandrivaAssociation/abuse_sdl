@@ -5,13 +5,13 @@
 
 Summary:	The classic Crack-Dot-Com game
 Name:		%{oname}_sdl
-Version:	0.9.0
+Version:	0.9.1
 Release:	1
 License:	GPLv2
 Group:		Games/Arcade
 URL:		http://abuse.zoy.org/
 Source0:	https://github.com/Xenoveritas/abuse/archive/refs/tags/v%{version}.tar.gz
-Patch:		abuse-0.9.0-compile.patch
+Patch:		abuse-0.9.1-compile.patch
 BuildRequires:	imagemagick
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(glu)
