@@ -9,7 +9,7 @@ Version:	0.9.1
 Release:	1
 License:	GPLv2
 Group:		Games/Arcade
-URL:		http://abuse.zoy.org/
+URL:		https://abuse.zoy.org/
 Source0:	https://github.com/Xenoveritas/abuse/archive/refs/tags/v%{version}.tar.gz
 Patch:		abuse-0.9.1-compile.patch
 BuildRequires:	imagemagick
